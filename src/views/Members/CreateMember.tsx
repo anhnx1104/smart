@@ -107,68 +107,63 @@ const CreateMember = () => {
       gender: gender,
       date: date,
     };
-    await addMemberDetails(crudData).then(res => {
-      if (res.success) {
-        navigate('/members');
-        setNotification({
-          message: 'Create success.',
-          severity: 'success',
-        });
-      }
-    }).catch(err => {
-      console.log(err);
-    });
-    // createExampleCRUD(crudData)
-    //   .then((res) => {
-    //     if (res.success) {
-    //       navigate('/example/crud');
-    //       setNotification({
-    //         message: 'Create success.',
-    //         severity: 'success',
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     setNotification({
-    //       error: 'Create failure.',
-    //     });
-    //   })
-    //   .finally(() => {
-    //     if (mounted.current) {
-    //       setLoading(false);
-    //     }
-    //   });
+    await addMemberDetails(crudData)
+      .then((res) => {
+        if (res.success) {
+          navigate('/members');
+          setNotification({
+            message: 'Create success.',
+            severity: 'success',
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const handleChange = (event: SelectChangeEvent) => {
     setGender(event.target.value);
   };
   return (
     <FormPaperGrid noValidate>
-      <FormHeader title='Create Members' />
+      <FormHeader title="Create Members" />
       <FormContent>
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Họ tên' name='name' />
+              <FormLabel required title="Họ tên" name="name" />
             </Grid>
-            <Grid item xs={12} sm={8} md={4}  >
-              <TextField id='outlined-basic' style={{ width: '100%' }}
-                         onChange={(e) => setName(e.target.value)}
-                         size={'medium'} variant='outlined' />
+            <Grid item xs={12} sm={8} md={4}>
+              <TextField
+                id="outlined-basic"
+                style={{ width: '100%' }}
+                onChange={(e) => setName(e.target.value)}
+                size={'medium'}
+                variant="outlined"
+              />
             </Grid>
-
           </Grid>
         </FormGroup>
-        <FormGroup >
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+        <FormGroup>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Giới tính' name='gender' />
+              <FormLabel required title="Giới tính" name="gender" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
               <Select
                 style={{ width: '100%' }}
-                labelId='demo-simple-select-label'
-                id='demo-simple-select'
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
                 value={'true'}
                 onChange={handleChange}
               >
@@ -176,40 +171,60 @@ const CreateMember = () => {
                 <MenuItem value={'false'}>Nữ</MenuItem>
               </Select>
             </Grid>
-
           </Grid>
         </FormGroup>
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Số điện thoại' name='phone' />
+              <FormLabel required title="Số điện thoại" name="phone" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <TextField id='outlined-basic' style={{ width: '100%' }} size={'medium'}
-                         onChange={(e) => setPhone(e.target.value)}
-                         variant='outlined' />
+              <TextField
+                id="outlined-basic"
+                style={{ width: '100%' }}
+                size={'medium'}
+                onChange={(e) => setPhone(e.target.value)}
+                variant="outlined"
+              />
             </Grid>
-
           </Grid>
         </FormGroup>
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Email' name='email' />
+              <FormLabel required title="Email" name="email" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <TextField id='outlined-basic' style={{ width: '100%' }}
-                         onChange={(e) => setEmail(e.target.value)}
-                         size={'medium'} variant='outlined' />
+              <TextField
+                id="outlined-basic"
+                style={{ width: '100%' }}
+                onChange={(e) => setEmail(e.target.value)}
+                size={'medium'}
+                variant="outlined"
+              />
             </Grid>
-
           </Grid>
         </FormGroup>
 
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Date' name='date' />
+              <FormLabel required title="Date" name="date" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
               <DatePicker
@@ -217,21 +232,22 @@ const CreateMember = () => {
                 onChange={(newValue: any) => {
                   setDate(newValue);
                 }}
-                renderInput={(params) => <TextField style={{width:"100%"}} {...params} />}
+                renderInput={(params) => (
+                  <TextField style={{ width: '100%' }} {...params} />
+                )}
               />
             </Grid>
-
           </Grid>
         </FormGroup>
       </FormContent>
       <FormFooter>
-        <LinkButton startIcon={<ArrowBackIcon />} to='/example/crud'>
+        <LinkButton startIcon={<ArrowBackIcon />} to="/example/crud">
           Back to list
         </LinkButton>
         <LoadingButton
           startIcon={<SaveIcon />}
-          loadingPosition='start'
-          type='submit'
+          loadingPosition="start"
+          type="submit"
           disabled={!TypedObject.isEmpty(errors)}
           onClick={onSubmit}
         >

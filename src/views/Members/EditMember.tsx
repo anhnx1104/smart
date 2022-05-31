@@ -24,7 +24,8 @@ import {
   mockMutipleSelectOptions,
   mockRadioOptions,
   mockSelectFieldOptions,
-  pointTypeOptions, randomIntFromInterval,
+  pointTypeOptions,
+  randomIntFromInterval,
   unitOptions,
 } from 'mock-axios';
 import { useEffect, useState } from 'react';
@@ -111,7 +112,6 @@ const DetailsMembershipClassForm = () => {
   const [expandedSendMail90, setExpandedSendMail90] = useState<boolean>(false);
   const { id }: any = useParams();
   console.log(id);
-
 
   const {
     control,
@@ -221,107 +221,141 @@ const DetailsMembershipClassForm = () => {
   if (taskQueue > 0) {
     return <LoadingScreen />;
   }
-  const onSubmit = async (data: FormData) => {
-
-
-
-  };
-  const handleChange = (event: SelectChangeEvent) => {
-
-  };
+  const onSubmit = async (data: FormData) => {};
+  const handleChange = (event: SelectChangeEvent) => {};
   return (
     <FormPaperGrid noValidate onSubmit={handleSubmit(onSubmit)}>
-      <FormHeader title='Edit Members' />
+      <FormHeader title="Edit Members" />
       <FormContent>
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}}  spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Mã Hội Viên' name='textField' />
+              <FormLabel required title="Mã Hội Viên" name="textField" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <ControllerTextField defaultValue={membershipClassDetails?.id} name='textField' control={control} />
+              <ControllerTextField
+                defaultValue={membershipClassDetails?.id}
+                name="textField"
+                control={control}
+              />
             </Grid>
-
           </Grid>
         </FormGroup>
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}}  spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Họ tên' name='textField' />
+              <FormLabel required title="Họ tên" name="textField" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <ControllerTextField defaultValue={membershipClassDetails?.name} name='textField' control={control} />
+              <ControllerTextField
+                defaultValue={membershipClassDetails?.name}
+                name="textField"
+                control={control}
+              />
             </Grid>
-
           </Grid>
         </FormGroup>
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}}  spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Họ tên' name='textField' />
+              <FormLabel required title="Họ tên" name="textField" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
               <Select
-                style={{width:"100%"}}
+                style={{ width: '100%' }}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={"1"}
+                value={'1'}
                 onChange={handleChange}
               >
                 <MenuItem value={1}>Nam</MenuItem>
                 <MenuItem value={2}>Nữ</MenuItem>
               </Select>
             </Grid>
-
           </Grid>
         </FormGroup>
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}}  spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Số điện thoại' name='textField' />
+              <FormLabel required title="Số điện thoại" name="textField" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <ControllerTextField defaultValue={membershipClassDetails?.name} name='textField' control={control} />
+              <ControllerTextField
+                defaultValue={membershipClassDetails?.name}
+                name="textField"
+                control={control}
+              />
             </Grid>
-
           </Grid>
         </FormGroup>
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}}  spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Email' name='textField' />
+              <FormLabel required title="Email" name="textField" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <ControllerTextField defaultValue={membershipClassDetails?.name} name='textField' control={control} />
+              <ControllerTextField
+                defaultValue={membershipClassDetails?.name}
+                name="textField"
+                control={control}
+              />
             </Grid>
-
           </Grid>
         </FormGroup>
 
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}}  spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Date' name='date' />
+              <FormLabel required title="Date" name="date" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
               <ControllerDatePicker
-                name='date'
+                name="date"
                 control={control}
                 errors={errors}
               />
             </Grid>
-
           </Grid>
         </FormGroup>
       </FormContent>
       <FormFooter>
-        <LinkButton startIcon={<ArrowBackIcon />} to='/example/crud'>
+        <LinkButton startIcon={<ArrowBackIcon />} to="/example/crud">
           Back to list
         </LinkButton>
         <LoadingButton
           startIcon={<SaveIcon />}
-          loadingPosition='start'
-          type='submit'
+          loadingPosition="start"
+          type="submit"
           disabled={!TypedObject.isEmpty(errors)}
         >
           Cập nhật
