@@ -4,11 +4,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Grid } from '@mui/material';
 import LinkButton from 'components/common/LinkButton';
-import ControllerDatePicker from 'components/Form/ControllerDatePicker';
-import ControllerRadio from 'components/Form/ControllerRadio';
-import ControllerSwitch from 'components/Form/ControllerSwitch';
-import ControllerTextField from 'components/Form/ControllerTextField';
-import ControllerTimePicker from 'components/Form/ControllerTimePicker';
+import moment from "moment"
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import TextField from '@mui/material/TextField';
 import FormContent from 'components/Form/FormContent';
@@ -84,8 +80,11 @@ const CreateMember = () => {
   const [gender, setGender] = useState('');
   const [email, setEmail] = useState('');
   const [date, setDate] = useState();
+  const [status,setStatus] = useState(0)
+  const [point,setPoint] = useState(0)
+
   const [loading, setLoading] = useState<boolean>(false);
-  console.log('ddđ', name);
+
 
   const {
     control,
@@ -101,11 +100,13 @@ const CreateMember = () => {
     e.preventDefault();
     setLoading(true);
     const crudData = {
-      id: randomIntFromInterval(),
       name: name,
       email: email,
-      gender: gender,
-      date: date,
+      gender: true,
+      dob: moment(date).format(),
+      point:point,
+      status:status,
+      numberPhone:phone
     };
     await addMemberDetails(crudData).then(res => {
       if (res.success) {
@@ -169,7 +170,7 @@ const CreateMember = () => {
                 style={{ width: '100%' }}
                 labelId='demo-simple-select-label'
                 id='demo-simple-select'
-                value={'true'}
+                value={""}
                 onChange={handleChange}
               >
                 <MenuItem value={'true'}>Nam</MenuItem>

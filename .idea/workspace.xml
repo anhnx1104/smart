@@ -2,12 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4d579552-7987-4ca8-850f-6aabcbd5d3fb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/smart.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/Members/MeberDetail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routers/Members.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/routers/Members.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/membershipClass.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/membershipClass.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Members/CreateMember.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Members/CreateMember.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Members/EditMember.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Members/EditMember.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Members/MembersTab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Members/MembersTab.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Members/components/HeaderMembers.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Members/components/HeaderMembers.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +47,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653959578934</updated>
-      <workItem from="1653959580864" duration="1350000" />
+      <workItem from="1653959580864" duration="13542000" />
     </task>
     <servers />
   </component>

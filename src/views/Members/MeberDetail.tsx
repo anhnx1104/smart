@@ -37,7 +37,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import {
-  editMembers,
   getMemberDetails,
   getMembershipClassDetails,
   MembershipClass,
@@ -54,7 +53,6 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
 import TypedObject from '../../utils/TypedObject';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import moment from 'moment';
 
 interface FormData {
   name: string;
@@ -90,7 +88,7 @@ interface FormData {
 
 const validationSchema = yup.object().shape({});
 
-const DetailsMembershipClassForm = () => {
+const MemberDetail = () => {
   const { id: membershipClassId } = useParams();
   const mounted = useMounted();
   const [membershipClassDetails, setMembershipClassDetails] =
@@ -113,12 +111,9 @@ const DetailsMembershipClassForm = () => {
   const [expandedSendMail75, setExpandedSendMail75] = useState<boolean>(false);
   const [expandedSendMail90, setExpandedSendMail90] = useState<boolean>(false);
   const [date, setDate] = useState();
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [gender, setGender] = useState('');
-  const [email, setEmail] = useState('');
-  const [status,setStatus] = useState(0)
-  const [point,setPoint] = useState(0)
+
+  const { id }: any = useParams();
+  console.log(id);
 
 
   const {
@@ -229,20 +224,9 @@ const DetailsMembershipClassForm = () => {
   if (taskQueue > 0) {
     return <LoadingScreen />;
   }
-  const handleEdit = async () => {
-    const data = {
-      numberPhone:phone,
-      name:name,
-      email:email,
-      dod:moment(date).format(),
-      gender:gender
-    }
-    console.log(data);
-      await editMembers(data).then(res=>{
-        console.log(res)
-      }).catch(err=>{
-        console.log(err);
-      })
+  const onSubmit = async (data: FormData) => {
+
+
 
   };
   const handleChange = (event: SelectChangeEvent) => {
@@ -260,7 +244,7 @@ const DetailsMembershipClassForm = () => {
             <Grid item xs={12} sm={8} md={4}  >
               <TextField id='outlined-basic' style={{ width: '100%' }}
                          defaultValue={membershipClassDetails?.name}
-                         onChange={(e) => setName(e.target.value)}
+                         disabled={true}
                          size={'medium'} variant='outlined' />
             </Grid>
 
@@ -273,11 +257,12 @@ const DetailsMembershipClassForm = () => {
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
               <Select
+                disabled={true}
                 style={{ width: '100%' }}
                 labelId='demo-simple-select-label'
                 id='demo-simple-select'
                 value={membershipClassDetails?.gender}
-                onChange={handleChange}
+
               >
                 <MenuItem value={'true'}>Nam</MenuItem>
                 <MenuItem value={'false'}>Nữ</MenuItem>
@@ -294,8 +279,7 @@ const DetailsMembershipClassForm = () => {
             <Grid item xs={12} sm={8} md={4}>
               <TextField id='outlined-basic' defaultValue={membershipClassDetails?.numberPhone} style={{ width: '100%' }} size={'medium'}
                          variant='outlined'
-                         onChange={(e) => setPhone(e.target.value)}
-
+                         disabled={true}
               />
             </Grid>
 
@@ -309,8 +293,7 @@ const DetailsMembershipClassForm = () => {
             <Grid item xs={12} sm={8} md={4}>
               <TextField defaultValue={membershipClassDetails?.email} id='outlined-basic' style={{ width: '100%' }}
                          size={'medium'} variant='outlined'
-                         onChange={(e) => setEmail(e.target.value)}
-
+                         disabled={true}
               />
             </Grid>
 
@@ -328,8 +311,9 @@ const DetailsMembershipClassForm = () => {
                 onChange={(newValue: any) => {
                   setDate(newValue);
                 }}
+                disabled={true}
                 renderInput={(params) => <TextField style={{width:"100%"}} {...params} />}
-              />
+               />
             </Grid>
 
           </Grid>
@@ -344,14 +328,12 @@ const DetailsMembershipClassForm = () => {
           loadingPosition='start'
           type='submit'
           disabled={!TypedObject.isEmpty(errors)}
-          onClick={handleEdit}
         >
-        Cập nhật
+          Lưu
         </LoadingButton>
       </FormFooter>
     </FormPaperGrid>
   );
 };
 
-export default DetailsMembershipClassForm;
-
+export default MemberDetail;

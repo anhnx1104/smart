@@ -7,8 +7,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import LinkButton from 'components/common/LinkButton';
 import { ChangeEvent } from 'types/react';
-import { getMemberTable } from 'services/membersTab';
-import { useEffect } from 'react';
+import { addMemberExel } from '../../../services/membershipClass';
 
 interface Breadcrumb {
   text: string;
@@ -28,8 +27,14 @@ const Input = styled('input')({
 const HeaderMembers = (props: Props) => {
   const { title } = props;
 
-  const handleUploadfiles: ChangeEvent = (e) => {
+  const handleUploadfiles: ChangeEvent = async (e) => {
     console.log(e.target.files);
+    const { files }:any = e.target;
+    await addMemberExel(files[0]).then(res=>{
+      console.log(res);
+    }).catch(err=>{
+      console.log(err);
+    })
   };
 
   // useEffect(() => {

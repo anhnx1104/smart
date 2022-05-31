@@ -5,11 +5,15 @@ import { stringify } from 'query-string';
 export interface MembershipClass {
   id: number;
   name: string;
+  numberPhone:string;
+  email:string;
   description: string;
   categories: number;
   condition: string;
   pointOfClass: string;
+  gender:string
   image: File | null;
+  dob:string;
   fileUpload: File | null;
   endowPoint: boolean;
   value: number;
@@ -85,6 +89,14 @@ export const getMembershipClassDetails = async (id: string) => {
   );
 };
 
+export const getMembers = async () => {
+  return HttpClient.get<string, CommonResponse>(
+    `${process.env.REACT_APP_BASE_URL}/app/member`,
+    { withToken: true },
+  );
+};
+
+
 export const getMemberDetails = async (id: string) => {
   return HttpClient.get<string, CommonResponse>(
     `${process.env.REACT_APP_BASE_URL}/app/member/${id}`,
@@ -104,4 +116,21 @@ export const editMembershipClass = async (params: any) => {
   return HttpClient.put<CreateParams, CommonResponse>(`${process.env.REACT_APP_BASE_URL}/app/membership-class`,
     params,
     { withToken: true });
+};
+
+export const editMembers = async (params: any) => {
+  return HttpClient.put<CreateParams, CommonResponse>(`${process.env.REACT_APP_BASE_URL}/app/member`,
+    params,
+    { withToken: true });
+};
+
+export const addMemberExel = async (params: any) => {
+  console.log("ppp",params);
+  return HttpClient.post<CreateParams, CommonResponse>(`${process.env.REACT_APP_BASE_URL}/app/member/import-excel`,
+    params,
+    { withToken: true,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
 };

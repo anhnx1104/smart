@@ -26,7 +26,7 @@ import type { FilterParams } from 'types/common';
 import FormatFns from 'utils/DateFns';
 import DeleteDialogMembers from './DeteleDialog';
 import {
-  getListMembershipClass,
+  getListMembershipClass, getMembers,
   MembershipClass,
 } from '../../services/membershipClass';
 import SeverityBadge from '../../components/Table/SeverityBadge';
@@ -108,8 +108,9 @@ const MembershipClassTable = () => {
   // call api to get list data
   useEffect(() => {
     setLoading(true);
-    getListMembershipClass(filters)
+    getMembers()
       .then((res) => {
+        console.log("resss",res);
         setMembershipClassList(res.data ?? []);
         setTotalRows(res.total);
       })
@@ -179,7 +180,7 @@ const MembershipClassTable = () => {
     return (
       <>
         {/* use LinkIconButton when want click a link */}
-        <LinkIconButton to={`/members/memberId/edit/${row.id}`}>
+        <LinkIconButton to={`/members/memberId/${row.id}`}>
           <IconButton>
             <VisibilityIcon />
           </IconButton>
