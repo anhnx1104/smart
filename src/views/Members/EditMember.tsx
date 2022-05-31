@@ -119,8 +119,7 @@ const DetailsMembershipClassForm = () => {
   const [email, setEmail] = useState('');
   const [status,setStatus] = useState(0)
   const [point,setPoint] = useState(0)
-
-
+  const {id} = useParams();
   const {
     control,
     handleSubmit,
@@ -139,7 +138,12 @@ const DetailsMembershipClassForm = () => {
     setTaskQueue((task) => task + 1);
     getMemberDetails(membershipClassId)
       .then((res) => {
+        console.log("oooo",res.data);
+        setEmail(res.data.email);
+        setName(res.data.name)
+        setPhone(res.data.numberPhone);
         setMembershipClassDetails(res.data);
+        setGender(res.data.gender)
         if (res.data?.endowPoint === true) {
           setCheckedEndowPoint(true);
           setExpanded(true);
@@ -229,8 +233,10 @@ const DetailsMembershipClassForm = () => {
   if (taskQueue > 0) {
     return <LoadingScreen />;
   }
-  const handleEdit = async () => {
+  const handleEdit = async (e:any) => {
+    e.preventDefault()
     const data = {
+      id:id,
       numberPhone:phone,
       name:name,
       email:email,
@@ -324,7 +330,7 @@ const DetailsMembershipClassForm = () => {
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
               <DatePicker
-                value={membershipClassDetails?.dob}
+                value={date}
                 onChange={(newValue: any) => {
                   setDate(newValue);
                 }}
