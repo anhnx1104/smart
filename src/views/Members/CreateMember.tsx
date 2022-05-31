@@ -9,8 +9,8 @@ import ControllerRadio from 'components/Form/ControllerRadio';
 import ControllerSwitch from 'components/Form/ControllerSwitch';
 import ControllerTextField from 'components/Form/ControllerTextField';
 import ControllerTimePicker from 'components/Form/ControllerTimePicker';
-import EntityMultipleSelecter from 'components/Form/EntityMultipleSelecter';
-import EntitySelecter from 'components/Form/EntitySelecter';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import TextField from '@mui/material/TextField';
 import FormContent from 'components/Form/FormContent';
 import FormFooter from 'components/Form/FormFooter';
 import FormGroup from 'components/Form/FormGroup';
@@ -31,6 +31,10 @@ import { useNavigate } from 'react-router-dom';
 import { createExampleCRUD } from 'services/crud';
 import TypedObject from 'utils/TypedObject';
 import * as yup from 'yup';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import * as React from 'react';
+import { addMemberDetails } from '../../services/membershipClass';
 
 interface FormData {
   textField: string;
@@ -75,8 +79,13 @@ const CreateMember = () => {
   const mounted = useMounted();
   const setNotification = useNotification();
   const navigate = useNavigate();
-
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [gender, setGender] = useState('');
+  const [email, setEmail] = useState('');
+  const [date, setDate] = useState();
   const [loading, setLoading] = useState<boolean>(false);
+  console.log('ddđ', name);
 
   const {
     control,
@@ -88,149 +97,145 @@ const CreateMember = () => {
     defaultValues: validationSchema.getDefault(),
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
     setLoading(true);
     const crudData = {
-      ...data,
       id: randomIntFromInterval(),
-      image: '',
-      selectField: data.selectField ?? 0,
-      radioField: data.radioField ?? 0,
-      time: data.time?.toISOString() ?? '',
-      date: data.date?.toISOString() ?? '',
+      name: name,
+      email: email,
+      gender: gender,
+      date: date,
     };
-
-    createExampleCRUD(crudData)
-      .then((res) => {
-        if (res.success) {
-          navigate('/example/crud');
-          setNotification({
-            message: 'Create success.',
-            severity: 'success',
-          });
-        }
-      })
-      .catch((err) => {
+    await addMemberDetails(crudData).then(res => {
+      if (res.success) {
+        navigate('/members');
         setNotification({
-          error: 'Create failure.',
+          message: 'Create success.',
+          severity: 'success',
         });
-      })
-      .finally(() => {
-        if (mounted.current) {
-          setLoading(false);
-        }
-      });
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+    // createExampleCRUD(crudData)
+    //   .then((res) => {
+    //     if (res.success) {
+    //       navigate('/example/crud');
+    //       setNotification({
+    //         message: 'Create success.',
+    //         severity: 'success',
+    //       });
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     setNotification({
+    //       error: 'Create failure.',
+    //     });
+    //   })
+    //   .finally(() => {
+    //     if (mounted.current) {
+    //       setLoading(false);
+    //     }
+    //   });
   };
-
+  const handleChange = (event: SelectChangeEvent) => {
+    setGender(event.target.value);
+  };
   return (
-    <FormPaperGrid noValidate onSubmit={handleSubmit(onSubmit)}>
-      <FormHeader title="Create Members" />
+    <FormPaperGrid noValidate>
+      <FormHeader title='Create Members' />
       <FormContent>
         <FormGroup>
-          <Grid container alignItems="center" spacing={2}>
+          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title="Mã Hội Viên" name="textField" />
+              <FormLabel required title='Họ tên' name='name' />
+            </Grid>
+            <Grid item xs={12} sm={8} md={4}  >
+              <TextField id='outlined-basic' style={{ width: '100%' }}
+                         onChange={(e) => setName(e.target.value)}
+                         size={'medium'} variant='outlined' />
+            </Grid>
+
+          </Grid>
+        </FormGroup>
+        <FormGroup >
+          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+            <Grid item xs={12} sm={4} md={2}>
+              <FormLabel required title='Giới tính' name='gender' />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <ControllerTextField name="textField" control={control} />
+              <Select
+                style={{ width: '100%' }}
+                labelId='demo-simple-select-label'
+                id='demo-simple-select'
+                value={'true'}
+                onChange={handleChange}
+              >
+                <MenuItem value={'true'}>Nam</MenuItem>
+                <MenuItem value={'false'}>Nữ</MenuItem>
+              </Select>
             </Grid>
-            <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title="Họ Tên" name="selectField" />
-            </Grid>
-            <Grid item xs={12} sm={8} md={4}>
-              <EntitySelecter
-                name="selectField"
-                control={control}
-                options={mockSelectFieldOptions}
-                renderLabel={(field) => field.name}
-                placeholder="Please select a field"
-              />
-            </Grid>
+
           </Grid>
         </FormGroup>
         <FormGroup>
-          <Grid container alignItems="center" spacing={2}>
+          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel
-                required
-                title="Mutiple select field"
-                name="mutipleSelectField"
-              />
+              <FormLabel required title='Số điện thoại' name='phone' />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <EntityMultipleSelecter
-                name="mutipleSelectField"
-                control={control}
-                options={mockMutipleSelectOptions}
-                renderLabel={(field) => field.name}
-                placeholder="Please select a field"
-                forcePopupIcon={false}
-              />
+              <TextField id='outlined-basic' style={{ width: '100%' }} size={'medium'}
+                         onChange={(e) => setPhone(e.target.value)}
+                         variant='outlined' />
             </Grid>
-            <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title="Giới Tính" name="radioField" />
-            </Grid>
-            <Grid item xs={12} sm={8} md={4}>
-              <ControllerRadio
-                name="radioField"
-                control={control}
-                row
-                options={mockRadioOptions}
-              />
-            </Grid>
+
           </Grid>
         </FormGroup>
         <FormGroup>
-          <Grid container alignItems="center" spacing={2}>
+          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel title="Switch field" name="switchField" />
+              <FormLabel required title='Email' name='email' />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <ControllerSwitch
-                name="switchField"
-                label="Switch field"
-                control={control}
-              />
+              <TextField id='outlined-basic' style={{ width: '100%' }}
+                         onChange={(e) => setEmail(e.target.value)}
+                         size={'medium'} variant='outlined' />
             </Grid>
+
           </Grid>
         </FormGroup>
+
         <FormGroup>
-          <Grid container alignItems="center" spacing={2}>
+          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title="Date" name="date" />
+              <FormLabel required title='Date' name='date' />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <ControllerDatePicker
-                name="date"
-                control={control}
-                errors={errors}
+              <DatePicker
+                value={date}
+                onChange={(newValue: any) => {
+                  setDate(newValue);
+                }}
+                renderInput={(params) => <TextField style={{width:"100%"}} {...params} />}
               />
             </Grid>
-            <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title="Time" name="time" />
-            </Grid>
-            <Grid item xs={12} sm={8} md={4}>
-              <ControllerTimePicker
-                name="time"
-                control={control}
-                errors={errors}
-              />
-            </Grid>
+
           </Grid>
         </FormGroup>
       </FormContent>
       <FormFooter>
-        <LinkButton startIcon={<ArrowBackIcon />} to="/example/crud">
+        <LinkButton startIcon={<ArrowBackIcon />} to='/example/crud'>
           Back to list
         </LinkButton>
         <LoadingButton
           startIcon={<SaveIcon />}
-          loading={loading}
-          loadingPosition="start"
-          type="submit"
+          loadingPosition='start'
+          type='submit'
           disabled={!TypedObject.isEmpty(errors)}
+          onClick={onSubmit}
         >
-          Save
+          Lưu
         </LoadingButton>
       </FormFooter>
     </FormPaperGrid>

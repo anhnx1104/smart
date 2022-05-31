@@ -22,24 +22,24 @@ export interface MembershipClass {
   sendMail90: boolean;
   otherDiscount: boolean;
   discount: boolean;
-  emailId: string
+  emailId: string;
 }
 
 export const getListMembershipClass = async (params: FilterParams) => {
   return HttpClient.get<typeof params, CommonResponse<MembershipClass[]>>(
-    `${process.env.REACT_APP_BASE_URL}/app/membership-class?`+
+    `${process.env.REACT_APP_BASE_URL}/app/membership-class?` +
     stringify(params, {
       skipNull: true,
       skipEmptyString: true,
     }),
-    {withToken: true}
+    { withToken: true },
   );
 };
 
 export const deleteMembershipClass = async (id: number) => {
   return HttpClient.delete<number, CommonResponse<MembershipClass[]>>(
     `${process.env.REACT_APP_BASE_URL}/app/membership-class/${id}`,
-    {withToken: true}
+    { withToken: true },
   );
 };
 
@@ -62,7 +62,7 @@ interface CreateParams {
   sendMail90: boolean;
   otherDiscount: boolean;
   discount: boolean;
-  emailId: string
+  emailId: string;
 }
 
 export const createMembershipClass = async (params: any) => {
@@ -73,19 +73,35 @@ export const createMembershipClass = async (params: any) => {
       withToken: true,
       headers: {
         'Content-Type': 'multipart/form-data',
-      },}
+      },
+    },
   );
 };
 
 export const getMembershipClassDetails = async (id: string) => {
   return HttpClient.get<string, CommonResponse>(
     `${process.env.REACT_APP_BASE_URL}/app/membership-class/${id}`,
-    {withToken: true}
+    { withToken: true },
+  );
+};
+
+export const getMemberDetails = async (id: string) => {
+  return HttpClient.get<string, CommonResponse>(
+    `${process.env.REACT_APP_BASE_URL}/app/member/${id}`,
+    { withToken: true },
+  );
+};
+
+export const addMemberDetails = async (data: any) => {
+  return HttpClient.post<string, CommonResponse>(
+    `${process.env.REACT_APP_BASE_URL}/app/member`,
+    data,
+    { withToken: true },
   );
 };
 
 export const editMembershipClass = async (params: any) => {
   return HttpClient.put<CreateParams, CommonResponse>(`${process.env.REACT_APP_BASE_URL}/app/membership-class`,
     params,
-    {withToken: true});
+    { withToken: true });
 };

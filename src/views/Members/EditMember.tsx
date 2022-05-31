@@ -1,16 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
-import { Collapse, Grid, TextField } from '@mui/material';
+import { Collapse, Grid, Input, TextField } from '@mui/material';
 import LinkButton from 'components/common/LinkButton';
 import LoadingScreen from 'components/common/LoadingScreen';
-import ControllerDatePicker from 'components/Form/ControllerDatePicker';
-import ControllerRadio from 'components/Form/ControllerRadio';
-import ControllerSwitch from 'components/Form/ControllerSwitch';
-import ControllerTextField from 'components/Form/ControllerTextField';
-import ControllerTimePicker from 'components/Form/ControllerTimePicker';
-import EntityMultipleSelecter from 'components/Form/EntityMultipleSelecter';
-import EntitySelecter from 'components/Form/EntitySelecter';
+import * as React from 'react';
+import FormControlUnstyled, {
+  useFormControlUnstyledContext,
+} from '@mui/base/FormControlUnstyled';
+import InputUnstyled, { inputUnstyledClasses } from '@mui/base/InputUnstyled';
+import { styled } from '@mui/system';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormContent from 'components/Form/FormContent';
 import FormFooter from 'components/Form/FormFooter';
 import FormGroup from 'components/Form/FormGroup';
@@ -23,23 +24,34 @@ import {
   mockMutipleSelectOptions,
   mockRadioOptions,
   mockSelectFieldOptions,
-  pointTypeOptions,
+  pointTypeOptions, randomIntFromInterval,
   unitOptions,
 } from 'mock-axios';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { ExampleCRUD, getCRUDDetails } from 'services/crud';
+import { createExampleCRUD, ExampleCRUD, getCRUDDetails } from 'services/crud';
 import * as yup from 'yup';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import {
+  getMemberDetails,
   getMembershipClassDetails,
   MembershipClass,
 } from 'services/membershipClass';
 import ControllerCheckbox from 'components/Form/ControllerCheckbox';
+import { Label } from '@mui/icons-material';
+import ControllerTextField from '../../components/Form/ControllerTextField';
+import EntityMultipleSelecter from '../../components/Form/EntityMultipleSelecter';
+import ControllerRadio from '../../components/Form/ControllerRadio';
+import ControllerSwitch from '../../components/Form/ControllerSwitch';
+import ControllerDatePicker from '../../components/Form/ControllerDatePicker';
+import ControllerTimePicker from '../../components/Form/ControllerTimePicker';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
+import TypedObject from '../../utils/TypedObject';
 
 interface FormData {
   name: string;
@@ -61,6 +73,16 @@ interface FormData {
   otherDiscount: boolean;
   discount: boolean;
   emailId: string;
+}
+
+interface FormData {
+  textField: string;
+  selectField: number | null;
+  mutipleSelectField: number[];
+  radioField: number | null;
+  switchField: boolean;
+  date: Date | null;
+  time: Date | null;
 }
 
 const validationSchema = yup.object().shape({});
@@ -87,11 +109,15 @@ const DetailsMembershipClassForm = () => {
   const [expandedSendMail50, setExpandedSendMail50] = useState<boolean>(false);
   const [expandedSendMail75, setExpandedSendMail75] = useState<boolean>(false);
   const [expandedSendMail90, setExpandedSendMail90] = useState<boolean>(false);
+  const { id }: any = useParams();
+  console.log(id);
+
 
   const {
     control,
-    formState: { errors },
+    handleSubmit,
     reset,
+    formState: { errors },
   } = useForm<FormData>({
     mode: 'onChange',
     resolver: yupResolver(validationSchema),
@@ -103,7 +129,7 @@ const DetailsMembershipClassForm = () => {
     if (!membershipClassId) return;
 
     setTaskQueue((task) => task + 1);
-    getMembershipClassDetails(membershipClassId)
+    getMemberDetails(membershipClassId)
       .then((res) => {
         setMembershipClassDetails(res.data);
         if (res.data?.endowPoint === true) {
@@ -142,7 +168,7 @@ const DetailsMembershipClassForm = () => {
         }
       });
   }, [membershipClassId, mounted]);
-
+  console.log('rrrrrrrrrrr', membershipClassDetails);
   //reset form value form data details
   useEffect(() => {
     if (!membershipClassDetails) return;
@@ -195,318 +221,111 @@ const DetailsMembershipClassForm = () => {
   if (taskQueue > 0) {
     return <LoadingScreen />;
   }
+  const onSubmit = async (data: FormData) => {
 
+
+
+  };
+  const handleChange = (event: SelectChangeEvent) => {
+
+  };
   return (
-    <FormPaperGrid noValidate>
-      <FormHeader title="Chi tiết hạng hội viên" />
+    <FormPaperGrid noValidate onSubmit={handleSubmit(onSubmit)}>
+      <FormHeader title='Edit Members' />
       <FormContent>
-        <Box>
-          <Typography>Thông tin chung</Typography>
-        </Box>
-
-        <Divider />
         <FormGroup>
-          <Grid
-            container
-            alignItems="center"
-            spacing={3}
-            style={{ padding: 20 }}
-          >
+          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}}  spacing={2}>
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title="Xếp hạng" name="categories" />
+              <FormLabel required title='Mã Hội Viên' name='textField' />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <ControllerTextField
-                name="categories"
-                control={control}
-                disabled
-              />
+              <ControllerTextField defaultValue={membershipClassDetails?.id} name='textField' control={control} />
             </Grid>
+
           </Grid>
         </FormGroup>
-        <Divider />
         <FormGroup>
-          <Grid
-            container
-            alignItems="center"
-            spacing={3}
-            style={{ padding: 20 }}
-          >
+          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}}  spacing={2}>
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title="Điều kiện" name="condition" />
+              <FormLabel required title='Họ tên' name='textField' />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <ControllerTextField
-                name="condition"
-                control={control}
-                disabled
-              />
+              <ControllerTextField defaultValue={membershipClassDetails?.name} name='textField' control={control} />
             </Grid>
-            <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title="Điểm xét hạng" name="pointOfClass" />
-            </Grid>
-            <Grid item xs={12} sm={8} md={4}>
-              <ControllerTextField
-                name="pointOfClass"
-                control={control}
-                disabled
-              />
-            </Grid>
+
           </Grid>
         </FormGroup>
-        <Divider />
         <FormGroup>
-          <Grid
-            container
-            alignItems="center"
-            spacing={3}
-            style={{ padding: 20 }}
-          >
+          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}}  spacing={2}>
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title="Ảnh hạng thẻ" name="image" />
+              <FormLabel required title='Họ tên' name='textField' />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <ControllerTextField name="image" control={control} disabled />
+              <Select
+                style={{width:"100%"}}
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={"1"}
+                onChange={handleChange}
+              >
+                <MenuItem value={1}>Nam</MenuItem>
+                <MenuItem value={2}>Nữ</MenuItem>
+              </Select>
             </Grid>
+
           </Grid>
         </FormGroup>
-        <Divider />
+        <FormGroup>
+          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}}  spacing={2}>
+            <Grid item xs={12} sm={4} md={2}>
+              <FormLabel required title='Số điện thoại' name='textField' />
+            </Grid>
+            <Grid item xs={12} sm={8} md={4}>
+              <ControllerTextField defaultValue={membershipClassDetails?.name} name='textField' control={control} />
+            </Grid>
 
-        <Collapse in={expanded}>
-          <FormGroup>
-            <Grid
-              container
-              alignItems="center"
-              spacing={3}
-              style={{ padding: 20 }}
-            >
-              <Grid item xs={12} sm={12} md={12}>
-                <ControllerCheckbox
-                  control={control}
-                  name="endowPoint"
-                  label="Ưu đãi điểm"
-                  checked={checkedEndowPoint}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={12} sm={12} md={12}>
-                <Divider />
-                <Grid
-                  container
-                  alignItems="center"
-                  spacing={3}
-                  style={{ paddingTop: 20 }}
-                >
-                  <Grid item xs={12} sm={4} md={1}>
-                    <FormLabel required title="Giá trị" name="value" />
-                  </Grid>
-                  <Grid item xs={12} sm={8} md={3}>
-                    <ControllerTextField
-                      name="value"
-                      control={control}
-                      disabled
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4} md={1}>
-                    <FormLabel required title="Đơn vị" name="unit" />
-                  </Grid>
-                  <Grid item xs={12} sm={8} md={3}>
-                    <ControllerTextField
-                      name="unit"
-                      control={control}
-                      disabled
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4} md={1}>
-                    <FormLabel required title="Loại điểm" name="pointType" />
-                  </Grid>
-                  <Grid item xs={12} sm={8} md={3}>
-                    <ControllerTextField
-                      name="pointType"
-                      control={control}
-                      disabled
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
+          </Grid>
+        </FormGroup>
+        <FormGroup>
+          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}}  spacing={2}>
+            <Grid item xs={12} sm={4} md={2}>
+              <FormLabel required title='Email' name='textField' />
             </Grid>
-          </FormGroup>
-        </Collapse>
-        <Collapse in={expandedDiscount}>
-          <FormGroup>
-            <Grid
-              container
-              alignItems="center"
-              spacing={3}
-              style={{ padding: 20 }}
-            >
-              <Grid item xs={12} sm={12} md={12}>
-                <ControllerCheckbox
-                  control={control}
-                  name="discount"
-                  label="Ưu đãi giảm giá"
-                  checked={checkedDiscount}
-                  disabled
-                />
-              </Grid>
+            <Grid item xs={12} sm={8} md={4}>
+              <ControllerTextField defaultValue={membershipClassDetails?.name} name='textField' control={control} />
             </Grid>
-          </FormGroup>
-        </Collapse>
-        <Collapse in={expandedOtherDiscount}>
-          <FormGroup>
-            <Grid
-              container
-              alignItems="center"
-              spacing={3}
-              style={{ padding: 20 }}
-            >
-              <Grid item xs={12} sm={12} md={12}>
-                <ControllerCheckbox
-                  control={control}
-                  name="otherDiscount"
-                  label="Ưu đãi khác"
-                  checked={checkedOtherDiscount}
-                  disabled
-                />
-              </Grid>
-            </Grid>
-          </FormGroup>
-        </Collapse>
-        <Divider />
 
-        <Collapse in={expandedSendMail50}>
-          <FormGroup>
-            <Grid
-              container
-              alignItems="center"
-              spacing={3}
-              style={{ padding: 20 }}
-            >
-              <Grid item xs={12} sm={12} md={6}>
-                <ControllerCheckbox
-                  control={control}
-                  name="sendMail50"
-                  label="Gửi email 50% điểm nâng hạng"
-                  checked={checkedSendMail50}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={12} sm={4} md={2}>
-                <FormLabel title="Mẫu email" name="emailId" />
-              </Grid>
-              <Grid item xs={12} sm={8} md={4}>
-                <ControllerTextField
-                  name="emailId"
-                  control={control}
-                  disabled
-                />
-              </Grid>
+          </Grid>
+        </FormGroup>
+
+        <FormGroup>
+          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}}  spacing={2}>
+            <Grid item xs={12} sm={4} md={2}>
+              <FormLabel required title='Date' name='date' />
             </Grid>
-          </FormGroup>
-        </Collapse>
-        <Collapse in={expandedSendMail75}>
-          <FormGroup>
-            <Grid
-              container
-              alignItems="center"
-              spacing={3}
-              style={{ padding: 20 }}
-            >
-              <Grid item xs={12} sm={12} md={6}>
-                <ControllerCheckbox
-                  control={control}
-                  name="sendMail75"
-                  label="Gửi email 50% điểm nâng hạng"
-                  checked={checkedSendMail75}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={12} sm={4} md={2}>
-                <FormLabel title="Mẫu email" name="emailId" />
-              </Grid>
-              <Grid item xs={12} sm={8} md={4}>
-                <ControllerTextField
-                  name="emailId"
-                  control={control}
-                  disabled
-                />
-              </Grid>
+            <Grid item xs={12} sm={8} md={4}>
+              <ControllerDatePicker
+                name='date'
+                control={control}
+                errors={errors}
+              />
             </Grid>
-          </FormGroup>
-        </Collapse>
-        <Collapse in={expandedSendMail90}>
-          <FormGroup>
-            <Grid
-              container
-              alignItems="center"
-              spacing={3}
-              style={{ padding: 20 }}
-            >
-              <Grid item xs={12} sm={12} md={6}>
-                <ControllerCheckbox
-                  control={control}
-                  name="sendMail50"
-                  label="Gửi email 90% điểm nâng hạng"
-                  checked={checkedSendMail90}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={12} sm={4} md={2}>
-                <FormLabel title="Mẫu email" name="emailId" />
-              </Grid>
-              <Grid item xs={12} sm={8} md={4}>
-                <ControllerTextField
-                  name="emailId"
-                  control={control}
-                  disabled
-                />
-              </Grid>
-            </Grid>
-          </FormGroup>
-        </Collapse>
-        <Collapse in={expandedSendMail}>
-          <FormGroup>
-            <Grid
-              container
-              alignItems="center"
-              spacing={3}
-              style={{ padding: 20 }}
-            >
-              <Grid item xs={12} sm={12} md={6}>
-                <ControllerCheckbox
-                  control={control}
-                  name="sendMail"
-                  label="Gửi email nâng hạng"
-                  checked={checkedSendMail}
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={12} sm={4} md={2}>
-                <FormLabel title="Mẫu email" name="emailId" />
-              </Grid>
-              <Grid item xs={12} sm={8} md={4}>
-                <ControllerTextField
-                  name="emailId"
-                  control={control}
-                  disabled
-                />
-              </Grid>
-            </Grid>
-          </FormGroup>
-        </Collapse>
+
+          </Grid>
+        </FormGroup>
       </FormContent>
       <FormFooter>
-        <LinkButton startIcon={<ArrowBackIcon />} to="/membershipClass/list">
-          Quay lại
+        <LinkButton startIcon={<ArrowBackIcon />} to='/example/crud'>
+          Back to list
         </LinkButton>
-
-        <LinkButton
-          variant="contained"
-          startIcon={<EditIcon />}
-          to={`/membershipClass/list/${membershipClassId}/edit`}
+        <LoadingButton
+          startIcon={<SaveIcon />}
+          loadingPosition='start'
+          type='submit'
+          disabled={!TypedObject.isEmpty(errors)}
         >
-          Sửa
-        </LinkButton>
+          Cập nhật
+        </LoadingButton>
       </FormFooter>
     </FormPaperGrid>
   );

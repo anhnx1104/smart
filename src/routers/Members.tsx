@@ -16,7 +16,7 @@ const MembersRoute: RouteObject = {
       element: <Members />,
     },
     {
-      path: ':memberId/edit',
+      path: ':memberId/edit/:id',
       element: <EditMember />,
     },
     {

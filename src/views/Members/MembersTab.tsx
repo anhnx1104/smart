@@ -85,11 +85,11 @@ const MembershipClassTable = () => {
   const [totalRows, setTotalRows] = useState<number>(0);
   const [membershipClassList, setMembershipClassList] = useState<
     MembershipClass[]
-  >([]);
+    >([]);
   const [loading, setLoading] = useState<boolean>(false); // loading when data is fetching
   const [currentMembershipClassId, setCurrentMembershipClassId] = useState<
     number | null
-  >(null); //use for dialog
+    >(null); //use for dialog
 
   // #region Filters
   const [filters, setFilters] = useState<FilterParams>({
@@ -179,8 +179,13 @@ const MembershipClassTable = () => {
     return (
       <>
         {/* use LinkIconButton when want click a link */}
+        <LinkIconButton to={`/members/memberId/edit/${row.id}`}>
+          <IconButton>
+            <VisibilityIcon />
+          </IconButton>
+        </LinkIconButton>
 
-        <LinkIconButton to={`/members/memberId/edit`}>
+        <LinkIconButton to={`/members/memberId/edit/${row.id}`}>
           <IconButton>
             <EditIcon />
           </IconButton>
