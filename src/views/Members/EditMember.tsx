@@ -24,7 +24,8 @@ import {
   mockMutipleSelectOptions,
   mockRadioOptions,
   mockSelectFieldOptions,
-  pointTypeOptions, randomIntFromInterval,
+  pointTypeOptions,
+  randomIntFromInterval,
   unitOptions,
 } from 'mock-axios';
 import { useEffect, useState } from 'react';
@@ -117,9 +118,8 @@ const DetailsMembershipClassForm = () => {
   const [phone, setPhone] = useState('');
   const [gender, setGender] = useState('');
   const [email, setEmail] = useState('');
-  const [status,setStatus] = useState(0)
-  const [point,setPoint] = useState(0)
-
+  const [status, setStatus] = useState(0);
+  const [point, setPoint] = useState(0);
 
   const {
     control,
@@ -231,51 +231,63 @@ const DetailsMembershipClassForm = () => {
   }
   const handleEdit = async () => {
     const data = {
-      numberPhone:phone,
-      name:name,
-      email:email,
-      dod:moment(date).format(),
-      gender:gender
-    }
+      numberPhone: phone,
+      name: name,
+      email: email,
+      dod: moment(date).format(),
+      gender: gender,
+    };
     console.log(data);
-      await editMembers(data).then(res=>{
-        console.log(res)
-      }).catch(err=>{
-        console.log(err);
+    await editMembers(data)
+      .then((res) => {
+        console.log(res);
       })
-
+      .catch((err) => {
+        console.log(err);
+      });
   };
-  const handleChange = (event: SelectChangeEvent) => {
-
-  };
+  const handleChange = (event: SelectChangeEvent) => {};
   return (
     <FormPaperGrid noValidate>
-      <FormHeader title='Members Detail' />
+      <FormHeader title="Members Update" />
       <FormContent>
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Họ tên' name='name' />
+              <FormLabel required title="Họ tên" name="name" />
             </Grid>
-            <Grid item xs={12} sm={8} md={4}  >
-              <TextField id='outlined-basic' style={{ width: '100%' }}
-                         defaultValue={membershipClassDetails?.name}
-                         onChange={(e) => setName(e.target.value)}
-                         size={'medium'} variant='outlined' />
+            <Grid item xs={12} sm={8} md={4}>
+              <TextField
+                id="outlined-basic"
+                style={{ width: '100%' }}
+                defaultValue={membershipClassDetails?.name}
+                onChange={(e) => setName(e.target.value)}
+                size={'medium'}
+                variant="outlined"
+              />
             </Grid>
-
           </Grid>
         </FormGroup>
-        <FormGroup >
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+        <FormGroup>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Giới tính' name='gender' />
+              <FormLabel required title="Giới tính" name="gender" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
               <Select
                 style={{ width: '100%' }}
-                labelId='demo-simple-select-label'
-                id='demo-simple-select'
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
                 value={membershipClassDetails?.gender}
                 onChange={handleChange}
               >
@@ -283,44 +295,62 @@ const DetailsMembershipClassForm = () => {
                 <MenuItem value={'false'}>Nữ</MenuItem>
               </Select>
             </Grid>
-
           </Grid>
         </FormGroup>
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Số điện thoại' name='phone' />
+              <FormLabel required title="Số điện thoại" name="phone" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <TextField id='outlined-basic' defaultValue={membershipClassDetails?.numberPhone} style={{ width: '100%' }} size={'medium'}
-                         variant='outlined'
-                         onChange={(e) => setPhone(e.target.value)}
-
+              <TextField
+                id="outlined-basic"
+                defaultValue={membershipClassDetails?.numberPhone}
+                style={{ width: '100%' }}
+                size={'medium'}
+                variant="outlined"
+                onChange={(e) => setPhone(e.target.value)}
               />
             </Grid>
-
           </Grid>
         </FormGroup>
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Email' name='email' />
+              <FormLabel required title="Email" name="email" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <TextField defaultValue={membershipClassDetails?.email} id='outlined-basic' style={{ width: '100%' }}
-                         size={'medium'} variant='outlined'
-                         onChange={(e) => setEmail(e.target.value)}
-
+              <TextField
+                defaultValue={membershipClassDetails?.email}
+                id="outlined-basic"
+                style={{ width: '100%' }}
+                size={'medium'}
+                variant="outlined"
+                onChange={(e) => setEmail(e.target.value)}
               />
             </Grid>
-
           </Grid>
         </FormGroup>
 
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Date' name='date' />
+              <FormLabel required title="Date" name="date" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
               <DatePicker
@@ -328,25 +358,26 @@ const DetailsMembershipClassForm = () => {
                 onChange={(newValue: any) => {
                   setDate(newValue);
                 }}
-                renderInput={(params) => <TextField style={{width:"100%"}} {...params} />}
+                renderInput={(params) => (
+                  <TextField style={{ width: '100%' }} {...params} />
+                )}
               />
             </Grid>
-
           </Grid>
         </FormGroup>
       </FormContent>
       <FormFooter>
-        <LinkButton startIcon={<ArrowBackIcon />} to='/example/crud'>
+        <LinkButton startIcon={<ArrowBackIcon />} to="/example/crud">
           Back to list
         </LinkButton>
         <LoadingButton
           startIcon={<SaveIcon />}
-          loadingPosition='start'
-          type='submit'
+          loadingPosition="start"
+          type="submit"
           disabled={!TypedObject.isEmpty(errors)}
           onClick={handleEdit}
         >
-        Cập nhật
+          Cập nhật
         </LoadingButton>
       </FormFooter>
     </FormPaperGrid>
@@ -354,4 +385,3 @@ const DetailsMembershipClassForm = () => {
 };
 
 export default DetailsMembershipClassForm;
-

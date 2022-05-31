@@ -24,7 +24,8 @@ import {
   mockMutipleSelectOptions,
   mockRadioOptions,
   mockSelectFieldOptions,
-  pointTypeOptions, randomIntFromInterval,
+  pointTypeOptions,
+  randomIntFromInterval,
   unitOptions,
 } from 'mock-axios';
 import { useEffect, useState } from 'react';
@@ -114,7 +115,6 @@ const MemberDetail = () => {
 
   const { id }: any = useParams();
   console.log(id);
-
 
   const {
     control,
@@ -224,86 +224,112 @@ const MemberDetail = () => {
   if (taskQueue > 0) {
     return <LoadingScreen />;
   }
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: FormData) => {};
 
-
-
-  };
-  const handleChange = (event: SelectChangeEvent) => {
-
-  };
   return (
     <FormPaperGrid noValidate>
-      <FormHeader title='Members Detail' />
+      <FormHeader title="Members View" />
       <FormContent>
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Họ tên' name='name' />
+              <FormLabel required title="Họ tên" name="name" />
             </Grid>
-            <Grid item xs={12} sm={8} md={4}  >
-              <TextField id='outlined-basic' style={{ width: '100%' }}
-                         defaultValue={membershipClassDetails?.name}
-                         disabled={true}
-                         size={'medium'} variant='outlined' />
+            <Grid item xs={12} sm={8} md={4}>
+              <TextField
+                id="outlined-basic"
+                style={{ width: '100%' }}
+                defaultValue={membershipClassDetails?.name}
+                disabled={true}
+                size={'medium'}
+                variant="outlined"
+              />
             </Grid>
-
           </Grid>
         </FormGroup>
-        <FormGroup >
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+        <FormGroup>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Giới tính' name='gender' />
+              <FormLabel required title="Giới tính" name="gender" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
               <Select
                 disabled={true}
                 style={{ width: '100%' }}
-                labelId='demo-simple-select-label'
-                id='demo-simple-select'
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
                 value={membershipClassDetails?.gender}
-
               >
                 <MenuItem value={'true'}>Nam</MenuItem>
                 <MenuItem value={'false'}>Nữ</MenuItem>
               </Select>
             </Grid>
-
           </Grid>
         </FormGroup>
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Số điện thoại' name='phone' />
+              <FormLabel required title="Số điện thoại" name="phone" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <TextField id='outlined-basic' defaultValue={membershipClassDetails?.numberPhone} style={{ width: '100%' }} size={'medium'}
-                         variant='outlined'
-                         disabled={true}
+              <TextField
+                id="outlined-basic"
+                defaultValue={membershipClassDetails?.numberPhone}
+                style={{ width: '100%' }}
+                size={'medium'}
+                variant="outlined"
+                disabled={true}
               />
             </Grid>
-
           </Grid>
         </FormGroup>
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Email' name='email' />
+              <FormLabel required title="Email" name="email" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
-              <TextField defaultValue={membershipClassDetails?.email} id='outlined-basic' style={{ width: '100%' }}
-                         size={'medium'} variant='outlined'
-                         disabled={true}
+              <TextField
+                defaultValue={membershipClassDetails?.email}
+                id="outlined-basic"
+                style={{ width: '100%' }}
+                size={'medium'}
+                variant="outlined"
+                disabled={true}
               />
             </Grid>
-
           </Grid>
         </FormGroup>
 
         <FormGroup>
-          <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
+          <Grid
+            container
+            alignItems="center"
+            style={{ display: 'flex', justifyContent: 'center' }}
+            spacing={2}
+          >
             <Grid item xs={12} sm={4} md={2}>
-              <FormLabel required title='Date' name='date' />
+              <FormLabel required title="Date" name="date" />
             </Grid>
             <Grid item xs={12} sm={8} md={4}>
               <DatePicker
@@ -312,21 +338,22 @@ const MemberDetail = () => {
                   setDate(newValue);
                 }}
                 disabled={true}
-                renderInput={(params) => <TextField style={{width:"100%"}} {...params} />}
-               />
+                renderInput={(params) => (
+                  <TextField style={{ width: '100%' }} {...params} />
+                )}
+              />
             </Grid>
-
           </Grid>
         </FormGroup>
       </FormContent>
       <FormFooter>
-        <LinkButton startIcon={<ArrowBackIcon />} to='/example/crud'>
+        <LinkButton startIcon={<ArrowBackIcon />} to="/example/crud">
           Back to list
         </LinkButton>
         <LoadingButton
           startIcon={<SaveIcon />}
-          loadingPosition='start'
-          type='submit'
+          loadingPosition="start"
+          type="submit"
           disabled={!TypedObject.isEmpty(errors)}
         >
           Lưu
