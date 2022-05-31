@@ -249,7 +249,7 @@ const DetailsMembershipClassForm = () => {
   const handleChange = (event: SelectChangeEvent) => {};
   return (
     <FormPaperGrid noValidate>
-      <FormHeader title="Members Update" />
+      <FormHeader title="Members View" />
       <FormContent>
         <FormGroup>
           <Grid
