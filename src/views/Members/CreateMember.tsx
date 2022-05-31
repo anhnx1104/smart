@@ -15,6 +15,7 @@ import FormLabel from 'components/Form/FormLabel';
 import FormPaperGrid from 'components/Form/FormPaperGrid';
 import useMounted from 'hooks/useMounted';
 import useNotification from 'hooks/useNotification';
+import Alert from '@mui/material/Alert';
 import {
   mockMutipleSelectOptions,
   mockRadioOptions,
@@ -82,7 +83,7 @@ const CreateMember = () => {
   const [date, setDate] = useState();
   const [status,setStatus] = useState(0)
   const [point,setPoint] = useState(0)
-
+  const [err,setErr] = useState("")
   const [loading, setLoading] = useState<boolean>(false);
 
 
@@ -110,6 +111,7 @@ const CreateMember = () => {
     };
     await addMemberDetails(crudData).then(res => {
       if (res.success) {
+        console.log(res);
         navigate('/members');
         setNotification({
           message: 'Create success.',
@@ -117,7 +119,7 @@ const CreateMember = () => {
         });
       }
     }).catch(err => {
-      console.log(err);
+      setErr(err.response.data.message);
     });
     // createExampleCRUD(crudData)
     //   .then((res) => {
@@ -147,7 +149,9 @@ const CreateMember = () => {
     <FormPaperGrid noValidate>
       <FormHeader title='Create Members' />
       <FormContent>
+
         <FormGroup>
+          {err && <Alert style={{marginBottom:"20px"}} severity="error">{err}</Alert>}
           <Grid container alignItems='center' style={{display:"flex" ,justifyContent:"center"}} spacing={2}>
             <Grid item xs={12} sm={4} md={2}>
               <FormLabel required title='Họ tên' name='name' />
@@ -170,7 +174,7 @@ const CreateMember = () => {
                 style={{ width: '100%' }}
                 labelId='demo-simple-select-label'
                 id='demo-simple-select'
-                value={""}
+                value={gender}
                 onChange={handleChange}
               >
                 <MenuItem value={'true'}>Nam</MenuItem>
